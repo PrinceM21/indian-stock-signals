@@ -1,0 +1,26 @@
+{
+  "version": "1.0",
+  "last_updated": "2026-02-18",
+  "stocks": [
+    { "symbol": "RELIANCE",   "exchange": "NSE", "sector": "Energy",         "sector_pe": 14.0 },
+    { "symbol": "TCS",        "exchange": "NSE", "sector": "IT",             "sector_pe": 28.0 },
+    { "symbol": "HDFCBANK",   "exchange": "NSE", "sector": "Banking",        "sector_pe": 18.0 },
+    { "symbol": "INFY",       "exchange": "NSE", "sector": "IT",             "sector_pe": 28.0 },
+    { "symbol": "ICICIBANK",  "exchange": "NSE", "sector": "Banking",        "sector_pe": 18.0 },
+    { "symbol": "HINDUNILVR", "exchange": "NSE", "sector": "FMCG",           "sector_pe": 55.0 },
+    { "symbol": "ITC",        "exchange": "NSE", "sector": "FMCG",           "sector_pe": 55.0 },
+    { "symbol": "SBIN",       "exchange": "NSE", "sector": "Banking",        "sector_pe": 18.0 },
+    { "symbol": "BAJFINANCE", "exchange": "NSE", "sector": "NBFC",           "sector_pe": 30.0 },
+    { "symbol": "WIPRO",      "exchange": "NSE", "sector": "IT",             "sector_pe": 28.0 },
+    { "symbol": "TATAMOTORS", "exchange": "NSE", "sector": "Auto",           "sector_pe": 12.0 },
+    { "symbol": "MARUTI",     "exchange": "NSE", "sector": "Auto",           "sector_pe": 12.0 },
+    { "symbol": "SUNPHARMA",  "exchange": "NSE", "sector": "Pharma",         "sector_pe": 38.0 },
+    { "symbol": "TITAN",      "exchange": "NSE", "sector": "Consumer",       "sector_pe": 80.0 },
+    { "symbol": "ADANIPORTS", "exchange": "NSE", "sector": "Infrastructure", "sector_pe": 20.0 },
+    { "symbol": "IRCTC",      "exchange": "NSE", "sector": "Travel",         "sector_pe": 45.0 },
+    { "symbol": "DMART",      "exchange": "NSE", "sector": "Retail",         "sector_pe": 90.0 },
+    { "symbol": "PIDILITIND", "exchange": "NSE", "sector": "Chemicals",      "sector_pe": 70.0 },
+    { "symbol": "POLYCAB",    "exchange": "NSE", "sector": "Capital Goods",  "sector_pe": 35.0 },
+    { "symbol": "TATAPOWER",  "exchange": "NSE", "sector": "Power",          "sector_pe": 25.0 }
+  ]
+}
