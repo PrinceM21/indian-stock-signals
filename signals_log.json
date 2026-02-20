@@ -1,0 +1,1123 @@
+[
+  {
+    "timestamp": "2026-02-20T22:10:00.519550+05:30",
+    "symbol": "RELIANCE",
+    "signal": "HOLD",
+    "price": 1419.1,
+    "tech_direction": "NEUTRAL",
+    "buy_count": 1,
+    "sell_count": 1,
+    "fund_passed": 3,
+    "fund_checklist": [
+      {
+        "name": "OPM > 20%",
+        "passed": false
+      },
+      {
+        "name": "EPS Positive",
+        "passed": true
+      },
+      {
+        "name": "D/E < 1",
+        "passed": true
+      },
+      {
+        "name": "ROE > 15%",
+        "passed": null
+      },
+      {
+        "name": "ROCE > 15%",
+        "passed": null
+      },
+      {
+        "name": "Net Profit \u2265 2\u00d7 Interest",
+        "passed": true
+      },
+      {
+        "name": "Promoter Holding \u2265 50%",
+        "passed": false
+      },
+      {
+        "name": "Cash Flow Positive",
+        "passed": null
+      },
+      {
+        "name": "Revenue Growth > 10%",
+        "passed": false
+      },
+      {
+        "name": "Profit Growth > 10%",
+        "passed": false
+      }
+    ],
+    "data_source": "Kite API",
+    "indicators_triggered": [],
+    "previous_signal": null,
+    "signal_changed": true,
+    "outcome_price": null,
+    "outcome_date": null,
+    "outcome_pct": null
+  },
+  {
+    "timestamp": "2026-02-20T22:10:00.519550+05:30",
+    "symbol": "TCS",
+    "signal": "HOLD",
+    "price": 2685.5,
+    "tech_direction": "NEUTRAL",
+    "buy_count": 1,
+    "sell_count": 2,
+    "fund_passed": 6,
+    "fund_checklist": [
+      {
+        "name": "OPM > 20%",
+        "passed": true
+      },
+      {
+        "name": "EPS Positive",
+        "passed": true
+      },
+      {
+        "name": "D/E < 1",
+        "passed": true
+      },
+      {
+        "name": "ROE > 15%",
+        "passed": true
+      },
+      {
+        "name": "ROCE > 15%",
+        "passed": null
+      },
+      {
+        "name": "Net Profit \u2265 2\u00d7 Interest",
+        "passed": true
+      },
+      {
+        "name": "Promoter Holding \u2265 50%",
+        "passed": false
+      },
+      {
+        "name": "Cash Flow Positive",
+        "passed": true
+      },
+      {
+        "name": "Revenue Growth > 10%",
+        "passed": false
+      },
+      {
+        "name": "Profit Growth > 10%",
+        "passed": false
+      }
+    ],
+    "data_source": "Kite API",
+    "indicators_triggered": [],
+    "previous_signal": null,
+    "signal_changed": true,
+    "outcome_price": null,
+    "outcome_date": null,
+    "outcome_pct": null
+  },
+  {
+    "timestamp": "2026-02-20T22:10:00.519550+05:30",
+    "symbol": "HDFCBANK",
+    "signal": "HOLD",
+    "price": 913.15,
+    "tech_direction": "NEUTRAL",
+    "buy_count": 0,
+    "sell_count": 2,
+    "fund_passed": 3,
+    "fund_checklist": [
+      {
+        "name": "OPM > 20%",
+        "passed": true
+      },
+      {
+        "name": "EPS Positive",
+        "passed": true
+      },
+      {
+        "name": "D/E < 1",
+        "passed": null
+      },
+      {
+        "name": "ROE > 15%",
+        "passed": false
+      },
+      {
+        "name": "ROCE > 15%",
+        "passed": null
+      },
+      {
+        "name": "Net Profit \u2265 2\u00d7 Interest",
+        "passed": false
+      },
+      {
+        "name": "Promoter Holding \u2265 50%",
+        "passed": false
+      },
+      {
+        "name": "Cash Flow Positive",
+        "passed": null
+      },
+      {
+        "name": "Revenue Growth > 10%",
+        "passed": true
+      },
+      {
+        "name": "Profit Growth > 10%",
+        "passed": false
+      }
+    ],
+    "data_source": "Kite API",
+    "indicators_triggered": [],
+    "previous_signal": null,
+    "signal_changed": true,
+    "outcome_price": null,
+    "outcome_date": null,
+    "outcome_pct": null
+  },
+  {
+    "timestamp": "2026-02-20T22:10:00.519550+05:30",
+    "symbol": "INFY",
+    "signal": "HOLD",
+    "price": 1352.5,
+    "tech_direction": "NEUTRAL",
+    "buy_count": 1,
+    "sell_count": 2,
+    "fund_passed": 5,
+    "fund_checklist": [
+      {
+        "name": "OPM > 20%",
+        "passed": false
+      },
+      {
+        "name": "EPS Positive",
+        "passed": true
+      },
+      {
+        "name": "D/E < 1",
+        "passed": true
+      },
+      {
+        "name": "ROE > 15%",
+        "passed": true
+      },
+      {
+        "name": "ROCE > 15%",
+        "passed": null
+      },
+      {
+        "name": "Net Profit \u2265 2\u00d7 Interest",
+        "passed": true
+      },
+      {
+        "name": "Promoter Holding \u2265 50%",
+        "passed": false
+      },
+      {
+        "name": "Cash Flow Positive",
+        "passed": true
+      },
+      {
+        "name": "Revenue Growth > 10%",
+        "passed": false
+      },
+      {
+        "name": "Profit Growth > 10%",
+        "passed": false
+      }
+    ],
+    "data_source": "Kite API",
+    "indicators_triggered": [],
+    "previous_signal": null,
+    "signal_changed": true,
+    "outcome_price": null,
+    "outcome_date": null,
+    "outcome_pct": null
+  },
+  {
+    "timestamp": "2026-02-20T22:10:00.519550+05:30",
+    "symbol": "ICICIBANK",
+    "signal": "HOLD",
+    "price": 1394.0,
+    "tech_direction": "NEUTRAL",
+    "buy_count": 1,
+    "sell_count": 1,
+    "fund_passed": 5,
+    "fund_checklist": [
+      {
+        "name": "OPM > 20%",
+        "passed": true
+      },
+      {
+        "name": "EPS Positive",
+        "passed": true
+      },
+      {
+        "name": "D/E < 1",
+        "passed": null
+      },
+      {
+        "name": "ROE > 15%",
+        "passed": true
+      },
+      {
+        "name": "ROCE > 15%",
+        "passed": null
+      },
+      {
+        "name": "Net Profit \u2265 2\u00d7 Interest",
+        "passed": false
+      },
+      {
+        "name": "Promoter Holding \u2265 50%",
+        "passed": false
+      },
+      {
+        "name": "Cash Flow Positive",
+        "passed": null
+      },
+      {
+        "name": "Revenue Growth > 10%",
+        "passed": true
+      },
+      {
+        "name": "Profit Growth > 10%",
+        "passed": true
+      }
+    ],
+    "data_source": "Kite API",
+    "indicators_triggered": [],
+    "previous_signal": null,
+    "signal_changed": true,
+    "outcome_price": null,
+    "outcome_date": null,
+    "outcome_pct": null
+  },
+  {
+    "timestamp": "2026-02-20T22:10:00.519550+05:30",
+    "symbol": "HINDUNILVR",
+    "signal": "HOLD",
+    "price": 2318.3,
+    "tech_direction": "NEUTRAL",
+    "buy_count": 0,
+    "sell_count": 2,
+    "fund_passed": 4,
+    "fund_checklist": [
+      {
+        "name": "OPM > 20%",
+        "passed": true
+      },
+      {
+        "name": "EPS Positive",
+        "passed": true
+      },
+      {
+        "name": "D/E < 1",
+        "passed": true
+      },
+      {
+        "name": "ROE > 15%",
+        "passed": null
+      },
+      {
+        "name": "ROCE > 15%",
+        "passed": null
+      },
+      {
+        "name": "Net Profit \u2265 2\u00d7 Interest",
+        "passed": true
+      },
+      {
+        "name": "Promoter Holding \u2265 50%",
+        "passed": false
+      },
+      {
+        "name": "Cash Flow Positive",
+        "passed": null
+      },
+      {
+        "name": "Revenue Growth > 10%",
+        "passed": false
+      },
+      {
+        "name": "Profit Growth > 10%",
+        "passed": false
+      }
+    ],
+    "data_source": "Kite API",
+    "indicators_triggered": [],
+    "previous_signal": null,
+    "signal_changed": true,
+    "outcome_price": null,
+    "outcome_date": null,
+    "outcome_pct": null
+  },
+  {
+    "timestamp": "2026-02-20T22:10:00.519550+05:30",
+    "symbol": "ITC",
+    "signal": "HOLD",
+    "price": 327.2,
+    "tech_direction": "NEUTRAL",
+    "buy_count": 1,
+    "sell_count": 1,
+    "fund_passed": 6,
+    "fund_checklist": [
+      {
+        "name": "OPM > 20%",
+        "passed": true
+      },
+      {
+        "name": "EPS Positive",
+        "passed": true
+      },
+      {
+        "name": "D/E < 1",
+        "passed": true
+      },
+      {
+        "name": "ROE > 15%",
+        "passed": null
+      },
+      {
+        "name": "ROCE > 15%",
+        "passed": null
+      },
+      {
+        "name": "Net Profit \u2265 2\u00d7 Interest",
+        "passed": true
+      },
+      {
+        "name": "Promoter Holding \u2265 50%",
+        "passed": false
+      },
+      {
+        "name": "Cash Flow Positive",
+        "passed": null
+      },
+      {
+        "name": "Revenue Growth > 10%",
+        "passed": true
+      },
+      {
+        "name": "Profit Growth > 10%",
+        "passed": true
+      }
+    ],
+    "data_source": "Kite API",
+    "indicators_triggered": [],
+    "previous_signal": null,
+    "signal_changed": true,
+    "outcome_price": null,
+    "outcome_date": null,
+    "outcome_pct": null
+  },
+  {
+    "timestamp": "2026-02-20T22:10:00.519550+05:30",
+    "symbol": "SBIN",
+    "signal": "HOLD",
+    "price": 1216.2,
+    "tech_direction": "NEUTRAL",
+    "buy_count": 2,
+    "sell_count": 1,
+    "fund_passed": 3,
+    "fund_checklist": [
+      {
+        "name": "OPM > 20%",
+        "passed": true
+      },
+      {
+        "name": "EPS Positive",
+        "passed": true
+      },
+      {
+        "name": "D/E < 1",
+        "passed": null
+      },
+      {
+        "name": "ROE > 15%",
+        "passed": null
+      },
+      {
+        "name": "ROCE > 15%",
+        "passed": null
+      },
+      {
+        "name": "Net Profit \u2265 2\u00d7 Interest",
+        "passed": false
+      },
+      {
+        "name": "Promoter Holding \u2265 50%",
+        "passed": false
+      },
+      {
+        "name": "Cash Flow Positive",
+        "passed": null
+      },
+      {
+        "name": "Revenue Growth > 10%",
+        "passed": false
+      },
+      {
+        "name": "Profit Growth > 10%",
+        "passed": true
+      }
+    ],
+    "data_source": "Kite API",
+    "indicators_triggered": [],
+    "previous_signal": null,
+    "signal_changed": true,
+    "outcome_price": null,
+    "outcome_date": null,
+    "outcome_pct": null
+  },
+  {
+    "timestamp": "2026-02-20T22:10:00.519550+05:30",
+    "symbol": "BAJFINANCE",
+    "signal": "HOLD",
+    "price": 1025.0,
+    "tech_direction": "NEUTRAL",
+    "buy_count": 2,
+    "sell_count": 0,
+    "fund_passed": 4,
+    "fund_checklist": [
+      {
+        "name": "OPM > 20%",
+        "passed": true
+      },
+      {
+        "name": "EPS Positive",
+        "passed": true
+      },
+      {
+        "name": "D/E < 1",
+        "passed": false
+      },
+      {
+        "name": "ROE > 15%",
+        "passed": null
+      },
+      {
+        "name": "ROCE > 15%",
+        "passed": null
+      },
+      {
+        "name": "Net Profit \u2265 2\u00d7 Interest",
+        "passed": false
+      },
+      {
+        "name": "Promoter Holding \u2265 50%",
+        "passed": false
+      },
+      {
+        "name": "Cash Flow Positive",
+        "passed": null
+      },
+      {
+        "name": "Revenue Growth > 10%",
+        "passed": true
+      },
+      {
+        "name": "Profit Growth > 10%",
+        "passed": true
+      }
+    ],
+    "data_source": "Kite API",
+    "indicators_triggered": [],
+    "previous_signal": null,
+    "signal_changed": true,
+    "outcome_price": null,
+    "outcome_date": null,
+    "outcome_pct": null
+  },
+  {
+    "timestamp": "2026-02-20T22:10:00.519550+05:30",
+    "symbol": "WIPRO",
+    "signal": "HOLD",
+    "price": 210.03,
+    "tech_direction": "NEUTRAL",
+    "buy_count": 1,
+    "sell_count": 2,
+    "fund_passed": 6,
+    "fund_checklist": [
+      {
+        "name": "OPM > 20%",
+        "passed": false
+      },
+      {
+        "name": "EPS Positive",
+        "passed": true
+      },
+      {
+        "name": "D/E < 1",
+        "passed": true
+      },
+      {
+        "name": "ROE > 15%",
+        "passed": true
+      },
+      {
+        "name": "ROCE > 15%",
+        "passed": null
+      },
+      {
+        "name": "Net Profit \u2265 2\u00d7 Interest",
+        "passed": true
+      },
+      {
+        "name": "Promoter Holding \u2265 50%",
+        "passed": false
+      },
+      {
+        "name": "Cash Flow Positive",
+        "passed": true
+      },
+      {
+        "name": "Revenue Growth > 10%",
+        "passed": false
+      },
+      {
+        "name": "Profit Growth > 10%",
+        "passed": true
+      }
+    ],
+    "data_source": "Kite API",
+    "indicators_triggered": [],
+    "previous_signal": null,
+    "signal_changed": true,
+    "outcome_price": null,
+    "outcome_date": null,
+    "outcome_pct": null
+  },
+  {
+    "timestamp": "2026-02-20T22:10:00.519550+05:30",
+    "symbol": "MARUTI",
+    "signal": "HOLD",
+    "price": 15009.0,
+    "tech_direction": "NEUTRAL",
+    "buy_count": 1,
+    "sell_count": 1,
+    "fund_passed": 3,
+    "fund_checklist": [
+      {
+        "name": "OPM > 20%",
+        "passed": false
+      },
+      {
+        "name": "EPS Positive",
+        "passed": true
+      },
+      {
+        "name": "D/E < 1",
+        "passed": true
+      },
+      {
+        "name": "ROE > 15%",
+        "passed": null
+      },
+      {
+        "name": "ROCE > 15%",
+        "passed": null
+      },
+      {
+        "name": "Net Profit \u2265 2\u00d7 Interest",
+        "passed": true
+      },
+      {
+        "name": "Promoter Holding \u2265 50%",
+        "passed": false
+      },
+      {
+        "name": "Cash Flow Positive",
+        "passed": null
+      },
+      {
+        "name": "Revenue Growth > 10%",
+        "passed": false
+      },
+      {
+        "name": "Profit Growth > 10%",
+        "passed": false
+      }
+    ],
+    "data_source": "Kite API",
+    "indicators_triggered": [],
+    "previous_signal": null,
+    "signal_changed": true,
+    "outcome_price": null,
+    "outcome_date": null,
+    "outcome_pct": null
+  },
+  {
+    "timestamp": "2026-02-20T22:10:00.519550+05:30",
+    "symbol": "SUNPHARMA",
+    "signal": "HOLD",
+    "price": 1724.0,
+    "tech_direction": "NEUTRAL",
+    "buy_count": 2,
+    "sell_count": 0,
+    "fund_passed": 5,
+    "fund_checklist": [
+      {
+        "name": "OPM > 20%",
+        "passed": true
+      },
+      {
+        "name": "EPS Positive",
+        "passed": true
+      },
+      {
+        "name": "D/E < 1",
+        "passed": true
+      },
+      {
+        "name": "ROE > 15%",
+        "passed": null
+      },
+      {
+        "name": "ROCE > 15%",
+        "passed": null
+      },
+      {
+        "name": "Net Profit \u2265 2\u00d7 Interest",
+        "passed": true
+      },
+      {
+        "name": "Promoter Holding \u2265 50%",
+        "passed": false
+      },
+      {
+        "name": "Cash Flow Positive",
+        "passed": null
+      },
+      {
+        "name": "Revenue Growth > 10%",
+        "passed": false
+      },
+      {
+        "name": "Profit Growth > 10%",
+        "passed": true
+      }
+    ],
+    "data_source": "Kite API",
+    "indicators_triggered": [],
+    "previous_signal": null,
+    "signal_changed": true,
+    "outcome_price": null,
+    "outcome_date": null,
+    "outcome_pct": null
+  },
+  {
+    "timestamp": "2026-02-20T22:10:00.519550+05:30",
+    "symbol": "TITAN",
+    "signal": "HOLD",
+    "price": 4232.0,
+    "tech_direction": "NEUTRAL",
+    "buy_count": 2,
+    "sell_count": 0,
+    "fund_passed": 3,
+    "fund_checklist": [
+      {
+        "name": "OPM > 20%",
+        "passed": false
+      },
+      {
+        "name": "EPS Positive",
+        "passed": true
+      },
+      {
+        "name": "D/E < 1",
+        "passed": false
+      },
+      {
+        "name": "ROE > 15%",
+        "passed": null
+      },
+      {
+        "name": "ROCE > 15%",
+        "passed": null
+      },
+      {
+        "name": "Net Profit \u2265 2\u00d7 Interest",
+        "passed": true
+      },
+      {
+        "name": "Promoter Holding \u2265 50%",
+        "passed": false
+      },
+      {
+        "name": "Cash Flow Positive",
+        "passed": null
+      },
+      {
+        "name": "Revenue Growth > 10%",
+        "passed": true
+      },
+      {
+        "name": "Profit Growth > 10%",
+        "passed": false
+      }
+    ],
+    "data_source": "Kite API",
+    "indicators_triggered": [],
+    "previous_signal": null,
+    "signal_changed": true,
+    "outcome_price": null,
+    "outcome_date": null,
+    "outcome_pct": null
+  },
+  {
+    "timestamp": "2026-02-20T22:10:00.519550+05:30",
+    "symbol": "ADANIPORTS",
+    "signal": "HOLD",
+    "price": 1515.3,
+    "tech_direction": "NEUTRAL",
+    "buy_count": 1,
+    "sell_count": 1,
+    "fund_passed": 7,
+    "fund_checklist": [
+      {
+        "name": "OPM > 20%",
+        "passed": true
+      },
+      {
+        "name": "EPS Positive",
+        "passed": true
+      },
+      {
+        "name": "D/E < 1",
+        "passed": true
+      },
+      {
+        "name": "ROE > 15%",
+        "passed": true
+      },
+      {
+        "name": "ROCE > 15%",
+        "passed": null
+      },
+      {
+        "name": "Net Profit \u2265 2\u00d7 Interest",
+        "passed": true
+      },
+      {
+        "name": "Promoter Holding \u2265 50%",
+        "passed": false
+      },
+      {
+        "name": "Cash Flow Positive",
+        "passed": null
+      },
+      {
+        "name": "Revenue Growth > 10%",
+        "passed": true
+      },
+      {
+        "name": "Profit Growth > 10%",
+        "passed": true
+      }
+    ],
+    "data_source": "Kite API",
+    "indicators_triggered": [],
+    "previous_signal": null,
+    "signal_changed": true,
+    "outcome_price": null,
+    "outcome_date": null,
+    "outcome_pct": null
+  },
+  {
+    "timestamp": "2026-02-20T22:10:00.519550+05:30",
+    "symbol": "IRCTC",
+    "signal": "HOLD",
+    "price": 644.4,
+    "tech_direction": "NEUTRAL",
+    "buy_count": 1,
+    "sell_count": 2,
+    "fund_passed": 5,
+    "fund_checklist": [
+      {
+        "name": "OPM > 20%",
+        "passed": true
+      },
+      {
+        "name": "EPS Positive",
+        "passed": true
+      },
+      {
+        "name": "D/E < 1",
+        "passed": true
+      },
+      {
+        "name": "ROE > 15%",
+        "passed": null
+      },
+      {
+        "name": "ROCE > 15%",
+        "passed": null
+      },
+      {
+        "name": "Net Profit \u2265 2\u00d7 Interest",
+        "passed": true
+      },
+      {
+        "name": "Promoter Holding \u2265 50%",
+        "passed": false
+      },
+      {
+        "name": "Cash Flow Positive",
+        "passed": null
+      },
+      {
+        "name": "Revenue Growth > 10%",
+        "passed": false
+      },
+      {
+        "name": "Profit Growth > 10%",
+        "passed": true
+      }
+    ],
+    "data_source": "Kite API",
+    "indicators_triggered": [],
+    "previous_signal": null,
+    "signal_changed": true,
+    "outcome_price": null,
+    "outcome_date": null,
+    "outcome_pct": null
+  },
+  {
+    "timestamp": "2026-02-20T22:10:00.519550+05:30",
+    "symbol": "DMART",
+    "signal": "HOLD",
+    "price": 3850.0,
+    "tech_direction": "NEUTRAL",
+    "buy_count": 1,
+    "sell_count": 1,
+    "fund_passed": 4,
+    "fund_checklist": [
+      {
+        "name": "OPM > 20%",
+        "passed": false
+      },
+      {
+        "name": "EPS Positive",
+        "passed": true
+      },
+      {
+        "name": "D/E < 1",
+        "passed": true
+      },
+      {
+        "name": "ROE > 15%",
+        "passed": null
+      },
+      {
+        "name": "ROCE > 15%",
+        "passed": null
+      },
+      {
+        "name": "Net Profit \u2265 2\u00d7 Interest",
+        "passed": true
+      },
+      {
+        "name": "Promoter Holding \u2265 50%",
+        "passed": false
+      },
+      {
+        "name": "Cash Flow Positive",
+        "passed": null
+      },
+      {
+        "name": "Revenue Growth > 10%",
+        "passed": true
+      },
+      {
+        "name": "Profit Growth > 10%",
+        "passed": false
+      }
+    ],
+    "data_source": "Kite API",
+    "indicators_triggered": [],
+    "previous_signal": null,
+    "signal_changed": true,
+    "outcome_price": null,
+    "outcome_date": null,
+    "outcome_pct": null
+  },
+  {
+    "timestamp": "2026-02-20T22:10:00.519550+05:30",
+    "symbol": "PIDILITIND",
+    "signal": "HOLD",
+    "price": 1463.0,
+    "tech_direction": "NEUTRAL",
+    "buy_count": 2,
+    "sell_count": 0,
+    "fund_passed": 5,
+    "fund_checklist": [
+      {
+        "name": "OPM > 20%",
+        "passed": true
+      },
+      {
+        "name": "EPS Positive",
+        "passed": true
+      },
+      {
+        "name": "D/E < 1",
+        "passed": true
+      },
+      {
+        "name": "ROE > 15%",
+        "passed": null
+      },
+      {
+        "name": "ROCE > 15%",
+        "passed": null
+      },
+      {
+        "name": "Net Profit \u2265 2\u00d7 Interest",
+        "passed": true
+      },
+      {
+        "name": "Promoter Holding \u2265 50%",
+        "passed": false
+      },
+      {
+        "name": "Cash Flow Positive",
+        "passed": null
+      },
+      {
+        "name": "Revenue Growth > 10%",
+        "passed": false
+      },
+      {
+        "name": "Profit Growth > 10%",
+        "passed": true
+      }
+    ],
+    "data_source": "Kite API",
+    "indicators_triggered": [],
+    "previous_signal": null,
+    "signal_changed": true,
+    "outcome_price": null,
+    "outcome_date": null,
+    "outcome_pct": null
+  },
+  {
+    "timestamp": "2026-02-20T22:10:00.519550+05:30",
+    "symbol": "POLYCAB",
+    "signal": "HOLD",
+    "price": 7829.0,
+    "tech_direction": "NEUTRAL",
+    "buy_count": 2,
+    "sell_count": 0,
+    "fund_passed": 7,
+    "fund_checklist": [
+      {
+        "name": "OPM > 20%",
+        "passed": false
+      },
+      {
+        "name": "EPS Positive",
+        "passed": true
+      },
+      {
+        "name": "D/E < 1",
+        "passed": true
+      },
+      {
+        "name": "ROE > 15%",
+        "passed": true
+      },
+      {
+        "name": "ROCE > 15%",
+        "passed": null
+      },
+      {
+        "name": "Net Profit \u2265 2\u00d7 Interest",
+        "passed": true
+      },
+      {
+        "name": "Promoter Holding \u2265 50%",
+        "passed": false
+      },
+      {
+        "name": "Cash Flow Positive",
+        "passed": true
+      },
+      {
+        "name": "Revenue Growth > 10%",
+        "passed": true
+      },
+      {
+        "name": "Profit Growth > 10%",
+        "passed": true
+      }
+    ],
+    "data_source": "Kite API",
+    "indicators_triggered": [],
+    "previous_signal": null,
+    "signal_changed": true,
+    "outcome_price": null,
+    "outcome_date": null,
+    "outcome_pct": null
+  },
+  {
+    "timestamp": "2026-02-20T22:10:00.519550+05:30",
+    "symbol": "TATAPOWER",
+    "signal": "HOLD",
+    "price": 377.0,
+    "tech_direction": "NEUTRAL",
+    "buy_count": 2,
+    "sell_count": 0,
+    "fund_passed": 1,
+    "fund_checklist": [
+      {
+        "name": "OPM > 20%",
+        "passed": false
+      },
+      {
+        "name": "EPS Positive",
+        "passed": true
+      },
+      {
+        "name": "D/E < 1",
+        "passed": false
+      },
+      {
+        "name": "ROE > 15%",
+        "passed": null
+      },
+      {
+        "name": "ROCE > 15%",
+        "passed": null
+      },
+      {
+        "name": "Net Profit \u2265 2\u00d7 Interest",
+        "passed": false
+      },
+      {
+        "name": "Promoter Holding \u2265 50%",
+        "passed": false
+      },
+      {
+        "name": "Cash Flow Positive",
+        "passed": null
+      },
+      {
+        "name": "Revenue Growth > 10%",
+        "passed": false
+      },
+      {
+        "name": "Profit Growth > 10%",
+        "passed": false
+      }
+    ],
+    "data_source": "Kite API",
+    "indicators_triggered": [],
+    "previous_signal": null,
+    "signal_changed": true,
+    "outcome_price": null,
+    "outcome_date": null,
+    "outcome_pct": null
+  }
+]

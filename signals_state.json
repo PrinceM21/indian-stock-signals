@@ -1,0 +1,97 @@
+{
+  "RELIANCE": {
+    "signal": "HOLD",
+    "timestamp": "2026-02-20T22:10:00.519550+05:30",
+    "price": 1419.1
+  },
+  "TCS": {
+    "signal": "HOLD",
+    "timestamp": "2026-02-20T22:10:00.519550+05:30",
+    "price": 2685.5
+  },
+  "HDFCBANK": {
+    "signal": "HOLD",
+    "timestamp": "2026-02-20T22:10:00.519550+05:30",
+    "price": 913.15
+  },
+  "INFY": {
+    "signal": "HOLD",
+    "timestamp": "2026-02-20T22:10:00.519550+05:30",
+    "price": 1352.5
+  },
+  "ICICIBANK": {
+    "signal": "HOLD",
+    "timestamp": "2026-02-20T22:10:00.519550+05:30",
+    "price": 1394.0
+  },
+  "HINDUNILVR": {
+    "signal": "HOLD",
+    "timestamp": "2026-02-20T22:10:00.519550+05:30",
+    "price": 2318.3
+  },
+  "ITC": {
+    "signal": "HOLD",
+    "timestamp": "2026-02-20T22:10:00.519550+05:30",
+    "price": 327.2
+  },
+  "SBIN": {
+    "signal": "HOLD",
+    "timestamp": "2026-02-20T22:10:00.519550+05:30",
+    "price": 1216.2
+  },
+  "BAJFINANCE": {
+    "signal": "HOLD",
+    "timestamp": "2026-02-20T22:10:00.519550+05:30",
+    "price": 1025.0
+  },
+  "WIPRO": {
+    "signal": "HOLD",
+    "timestamp": "2026-02-20T22:10:00.519550+05:30",
+    "price": 210.03
+  },
+  "MARUTI": {
+    "signal": "HOLD",
+    "timestamp": "2026-02-20T22:10:00.519550+05:30",
+    "price": 15009.0
+  },
+  "SUNPHARMA": {
+    "signal": "HOLD",
+    "timestamp": "2026-02-20T22:10:00.519550+05:30",
+    "price": 1724.0
+  },
+  "TITAN": {
+    "signal": "HOLD",
+    "timestamp": "2026-02-20T22:10:00.519550+05:30",
+    "price": 4232.0
+  },
+  "ADANIPORTS": {
+    "signal": "HOLD",
+    "timestamp": "2026-02-20T22:10:00.519550+05:30",
+    "price": 1515.3
+  },
+  "IRCTC": {
+    "signal": "HOLD",
+    "timestamp": "2026-02-20T22:10:00.519550+05:30",
+    "price": 644.4
+  },
+  "DMART": {
+    "signal": "HOLD",
+    "timestamp": "2026-02-20T22:10:00.519550+05:30",
+    "price": 3850.0
+  },
+  "PIDILITIND": {
+    "signal": "HOLD",
+    "timestamp": "2026-02-20T22:10:00.519550+05:30",
+    "price": 1463.0
+  },
+  "POLYCAB": {
+    "signal": "HOLD",
+    "timestamp": "2026-02-20T22:10:00.519550+05:30",
+    "price": 7829.0
+  },
+  "TATAPOWER": {
+    "signal": "HOLD",
+    "timestamp": "2026-02-20T22:10:00.519550+05:30",
+    "price": 377.0
+  }
+}
