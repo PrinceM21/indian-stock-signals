@@ -1,97 +1,478 @@
 {
   "RELIANCE": {
     "signal": "HOLD",
-    "timestamp": "2026-02-20T22:10:00.519550+05:30",
-    "price": 1419.1
+    "timestamp": "2026-02-20T22:46:40.491427+05:30",
+    "price": 1419.1,
+    "atr": 29.80322707377459,
+    "fund_passed": 1
   },
   "TCS": {
     "signal": "HOLD",
-    "timestamp": "2026-02-20T22:10:00.519550+05:30",
-    "price": 2685.5
+    "timestamp": "2026-02-20T22:46:40.491427+05:30",
+    "price": 2685.5,
+    "atr": 82.17373171003159,
+    "fund_passed": 1
   },
   "HDFCBANK": {
     "signal": "HOLD",
-    "timestamp": "2026-02-20T22:10:00.519550+05:30",
-    "price": 913.15
+    "timestamp": "2026-02-20T22:46:40.491427+05:30",
+    "price": 913.15,
+    "atr": 16.009666862380033,
+    "fund_passed": 1
   },
   "INFY": {
     "signal": "HOLD",
-    "timestamp": "2026-02-20T22:10:00.519550+05:30",
-    "price": 1352.5
+    "timestamp": "2026-02-20T22:46:40.491427+05:30",
+    "price": 1352.5,
+    "atr": 49.08324592544559,
+    "fund_passed": 1
   },
   "ICICIBANK": {
     "signal": "HOLD",
-    "timestamp": "2026-02-20T22:10:00.519550+05:30",
-    "price": 1394.0
+    "timestamp": "2026-02-20T22:46:40.491427+05:30",
+    "price": 1394.0,
+    "atr": 23.50698210272,
+    "fund_passed": 1
   },
   "HINDUNILVR": {
     "signal": "HOLD",
-    "timestamp": "2026-02-20T22:10:00.519550+05:30",
-    "price": 2318.3
+    "timestamp": "2026-02-20T22:46:40.491427+05:30",
+    "price": 2318.3,
+    "atr": 52.708905797160355,
+    "fund_passed": 1
   },
   "ITC": {
     "signal": "HOLD",
-    "timestamp": "2026-02-20T22:10:00.519550+05:30",
-    "price": 327.2
+    "timestamp": "2026-02-20T22:46:40.491427+05:30",
+    "price": 327.2,
+    "atr": 7.2868381447858,
+    "fund_passed": 1
   },
   "SBIN": {
     "signal": "HOLD",
-    "timestamp": "2026-02-20T22:10:00.519550+05:30",
-    "price": 1216.2
+    "timestamp": "2026-02-20T22:46:40.491427+05:30",
+    "price": 1216.2,
+    "atr": 25.955365920595707,
+    "fund_passed": 1
   },
   "BAJFINANCE": {
     "signal": "HOLD",
-    "timestamp": "2026-02-20T22:10:00.519550+05:30",
-    "price": 1025.0
+    "timestamp": "2026-02-20T22:46:40.491427+05:30",
+    "price": 1025.0,
+    "atr": 24.10806631056921,
+    "fund_passed": 1
   },
   "WIPRO": {
     "signal": "HOLD",
-    "timestamp": "2026-02-20T22:10:00.519550+05:30",
-    "price": 210.03
+    "timestamp": "2026-02-20T22:46:40.491427+05:30",
+    "price": 210.03,
+    "atr": 6.627599305488612,
+    "fund_passed": 1
   },
   "MARUTI": {
     "signal": "HOLD",
-    "timestamp": "2026-02-20T22:10:00.519550+05:30",
-    "price": 15009.0
+    "timestamp": "2026-02-20T22:46:40.491427+05:30",
+    "price": 15009.0,
+    "atr": 337.73546642914073,
+    "fund_passed": 1
   },
   "SUNPHARMA": {
     "signal": "HOLD",
-    "timestamp": "2026-02-20T22:10:00.519550+05:30",
-    "price": 1724.0
+    "timestamp": "2026-02-20T22:46:40.491427+05:30",
+    "price": 1724.0,
+    "atr": 28.569222911019505,
+    "fund_passed": 1
   },
   "TITAN": {
     "signal": "HOLD",
-    "timestamp": "2026-02-20T22:10:00.519550+05:30",
-    "price": 4232.0
+    "timestamp": "2026-02-20T22:46:40.491427+05:30",
+    "price": 4232.0,
+    "atr": 93.1287052031705,
+    "fund_passed": 1
   },
   "ADANIPORTS": {
     "signal": "HOLD",
-    "timestamp": "2026-02-20T22:10:00.519550+05:30",
-    "price": 1515.3
+    "timestamp": "2026-02-20T22:46:40.491427+05:30",
+    "price": 1515.3,
+    "atr": 41.78262615279477,
+    "fund_passed": 1
   },
   "IRCTC": {
     "signal": "HOLD",
-    "timestamp": "2026-02-20T22:10:00.519550+05:30",
-    "price": 644.4
+    "timestamp": "2026-02-20T22:46:40.491427+05:30",
+    "price": 644.4,
+    "atr": 15.843023932067112,
+    "fund_passed": 1
   },
   "DMART": {
     "signal": "HOLD",
-    "timestamp": "2026-02-20T22:10:00.519550+05:30",
-    "price": 3850.0
+    "timestamp": "2026-02-20T22:46:40.491427+05:30",
+    "price": 3850.0,
+    "atr": 84.6198434258933,
+    "fund_passed": 1
   },
   "PIDILITIND": {
     "signal": "HOLD",
-    "timestamp": "2026-02-20T22:10:00.519550+05:30",
-    "price": 1463.0
+    "timestamp": "2026-02-20T22:46:40.491427+05:30",
+    "price": 1463.0,
+    "atr": 26.917521220547787,
+    "fund_passed": 1
   },
   "POLYCAB": {
     "signal": "HOLD",
-    "timestamp": "2026-02-20T22:10:00.519550+05:30",
-    "price": 7829.0
+    "timestamp": "2026-02-20T22:46:40.491427+05:30",
+    "price": 7829.0,
+    "atr": 187.6223085560147,
+    "fund_passed": 1
   },
   "TATAPOWER": {
     "signal": "HOLD",
-    "timestamp": "2026-02-20T22:10:00.519550+05:30",
-    "price": 377.0
+    "timestamp": "2026-02-20T22:46:40.491427+05:30",
+    "price": 377.0,
+    "atr": 8.93380149035246,
+    "fund_passed": 1
+  },
+  "ASIANPAINT": {
+    "signal": "HOLD",
+    "timestamp": "2026-02-20T22:46:40.491427+05:30",
+    "price": 2428.0,
+    "atr": 58.53579312578207,
+    "fund_passed": 1
+  },
+  "AXISBANK": {
+    "signal": "HOLD",
+    "timestamp": "2026-02-20T22:46:40.491427+05:30",
+    "price": 1367.7,
+    "atr": 30.314027535812425,
+    "fund_passed": 1
+  },
+  "BHARTIARTL": {
+    "signal": "HOLD",
+    "timestamp": "2026-02-20T22:46:40.491427+05:30",
+    "price": 1977.8,
+    "atr": 36.777416111267165,
+    "fund_passed": 1
+  },
+  "BPCL": {
+    "signal": "HOLD",
+    "timestamp": "2026-02-20T22:46:40.491427+05:30",
+    "price": 365.0,
+    "atr": 9.593637842415118,
+    "fund_passed": 1
+  },
+  "BRITANNIA": {
+    "signal": "HOLD",
+    "timestamp": "2026-02-20T22:46:40.491427+05:30",
+    "price": 6088.0,
+    "atr": 124.38631594406166,
+    "fund_passed": 1
+  },
+  "CIPLA": {
+    "signal": "HOLD",
+    "timestamp": "2026-02-20T22:46:40.491427+05:30",
+    "price": 1338.0,
+    "atr": 25.888255435877177,
+    "fund_passed": 1
+  },
+  "COALINDIA": {
+    "signal": "HOLD",
+    "timestamp": "2026-02-20T22:46:40.491427+05:30",
+    "price": 422.5,
+    "atr": 10.593386440404123,
+    "fund_passed": 1
+  },
+  "DIVISLAB": {
+    "signal": "HOLD",
+    "timestamp": "2026-02-20T22:46:40.491427+05:30",
+    "price": 6292.0,
+    "atr": 181.10890523718115,
+    "fund_passed": 1
+  },
+  "DRREDDY": {
+    "signal": "HOLD",
+    "timestamp": "2026-02-20T22:46:40.491427+05:30",
+    "price": 1277.8,
+    "atr": 25.378748866512595,
+    "fund_passed": 1
+  },
+  "EICHERMOT": {
+    "signal": "HOLD",
+    "timestamp": "2026-02-20T22:46:40.491427+05:30",
+    "price": 7920.0,
+    "atr": 183.89586596667408,
+    "fund_passed": 1
+  },
+  "GRASIM": {
+    "signal": "HOLD",
+    "timestamp": "2026-02-20T22:46:40.491427+05:30",
+    "price": 2835.0,
+    "atr": 61.30244019798716,
+    "fund_passed": 1
+  },
+  "HCLTECH": {
+    "signal": "HOLD",
+    "timestamp": "2026-02-20T22:46:40.491427+05:30",
+    "price": 1438.8,
+    "atr": 45.024377587171756,
+    "fund_passed": 1
+  },
+  "HEROMOTOCO": {
+    "signal": "HOLD",
+    "timestamp": "2026-02-20T22:46:40.491427+05:30",
+    "price": 5458.0,
+    "atr": 154.3834259019,
+    "fund_passed": 1
+  },
+  "HINDALCO": {
+    "signal": "HOLD",
+    "timestamp": "2026-02-20T22:46:40.491427+05:30",
+    "price": 934.75,
+    "atr": 29.96066579128743,
+    "fund_passed": 1
+  },
+  "JSWSTEEL": {
+    "signal": "HOLD",
+    "timestamp": "2026-02-20T22:46:40.491427+05:30",
+    "price": 1232.0,
+    "atr": 25.520839557028847,
+    "fund_passed": 1
+  },
+  "KOTAKBANK": {
+    "signal": "HOLD",
+    "timestamp": "2026-02-20T22:46:40.491427+05:30",
+    "price": 420.15,
+    "atr": 8.655393460509574,
+    "fund_passed": 1
+  },
+  "LT": {
+    "signal": "HOLD",
+    "timestamp": "2026-02-20T22:46:40.491427+05:30",
+    "price": 4380.2,
+    "atr": 83.5422440863246,
+    "fund_passed": 1
+  },
+  "M&M": {
+    "signal": "HOLD",
+    "timestamp": "2026-02-20T22:46:40.491427+05:30",
+    "price": 3417.0,
+    "atr": 91.63415398210971,
+    "fund_passed": 1
+  },
+  "NESTLEIND": {
+    "signal": "HOLD",
+    "timestamp": "2026-02-20T22:46:40.491427+05:30",
+    "price": 1295.5,
+    "atr": 26.516429338173225,
+    "fund_passed": 1
+  },
+  "NTPC": {
+    "signal": "HOLD",
+    "timestamp": "2026-02-20T22:46:40.491427+05:30",
+    "price": 372.8,
+    "atr": 7.734379708618929,
+    "fund_passed": 1
+  },
+  "ONGC": {
+    "signal": "HOLD",
+    "timestamp": "2026-02-20T22:46:40.491427+05:30",
+    "price": 278.3,
+    "atr": 7.427309545234395,
+    "fund_passed": 1
+  },
+  "POWERGRID": {
+    "signal": "HOLD",
+    "timestamp": "2026-02-20T22:46:40.491427+05:30",
+    "price": 299.0,
+    "atr": 7.076234492462943,
+    "fund_passed": 1
+  },
+  "SHRIRAMFIN": {
+    "signal": "HOLD",
+    "timestamp": "2026-02-20T22:46:40.491427+05:30",
+    "price": 1059.6,
+    "atr": 30.343061189632284,
+    "fund_passed": 1
+  },
+  "TATACONSUM": {
+    "signal": "HOLD",
+    "timestamp": "2026-02-20T22:46:40.491427+05:30",
+    "price": 1155.2,
+    "atr": 26.414715315101727,
+    "fund_passed": 1
+  },
+  "TATASTEEL": {
+    "signal": "HOLD",
+    "timestamp": "2026-02-20T22:46:40.491427+05:30",
+    "price": 208.21,
+    "atr": 5.852306470591791,
+    "fund_passed": 1
+  },
+  "TECHM": {
+    "signal": "HOLD",
+    "timestamp": "2026-02-20T22:46:40.491427+05:30",
+    "price": 1464.0,
+    "atr": 49.52913151805826,
+    "fund_passed": 1
+  },
+  "ULTRACEMCO": {
+    "signal": "HOLD",
+    "timestamp": "2026-02-20T22:46:40.491427+05:30",
+    "price": 12748.0,
+    "atr": 237.94508439090293,
+    "fund_passed": 1
+  },
+  "UPL": {
+    "signal": "HOLD",
+    "timestamp": "2026-02-20T22:46:40.491427+05:30",
+    "price": 751.5,
+    "atr": 23.378132208911467,
+    "fund_passed": 1
+  },
+  "VEDL": {
+    "signal": "HOLD",
+    "timestamp": "2026-02-20T22:46:40.491427+05:30",
+    "price": 682.2,
+    "atr": 23.40755693448306,
+    "fund_passed": 1
+  },
+  "ABCAPITAL": {
+    "signal": "HOLD",
+    "timestamp": "2026-02-20T22:46:40.491427+05:30",
+    "price": 343.05,
+    "atr": 10.814966867747657,
+    "fund_passed": 1
+  },
+  "ASTRAL": {
+    "signal": "HOLD",
+    "timestamp": "2026-02-20T22:46:40.491427+05:30",
+    "price": 1630.7,
+    "atr": 40.95999211204832,
+    "fund_passed": 1
+  },
+  "BALKRISIND": {
+    "signal": "HOLD",
+    "timestamp": "2026-02-20T22:46:40.491427+05:30",
+    "price": 2493.0,
+    "atr": 89.96019055889289,
+    "fund_passed": 1
+  },
+  "DEEPAKNTR": {
+    "signal": "HOLD",
+    "timestamp": "2026-02-20T22:46:40.491427+05:30",
+    "price": 1604.0,
+    "atr": 51.50100546596152,
+    "fund_passed": 1
+  },
+  "ESCORTS": {
+    "signal": "HOLD",
+    "timestamp": "2026-02-20T22:46:40.491427+05:30",
+    "price": 3423.0,
+    "atr": 111.90180286593154,
+    "fund_passed": 1
+  },
+  "GMRAIRPORT": {
+    "signal": "HOLD",
+    "timestamp": "2026-02-20T22:46:40.491427+05:30",
+    "price": 99.57,
+    "atr": 2.8428521500316024,
+    "fund_passed": 1
+  },
+  "GODREJPROP": {
+    "signal": "HOLD",
+    "timestamp": "2026-02-20T22:46:40.491427+05:30",
+    "price": 1825.0,
+    "atr": 67.65224242823076,
+    "fund_passed": 1
+  },
+  "HAVELLS": {
+    "signal": "HOLD",
+    "timestamp": "2026-02-20T22:46:40.491427+05:30",
+    "price": 1413.5,
+    "atr": 32.658191303462424,
+    "fund_passed": 1
+  },
+  "INDHOTEL": {
+    "signal": "HOLD",
+    "timestamp": "2026-02-20T22:46:40.491427+05:30",
+    "price": 675.0,
+    "atr": 18.458371509828186,
+    "fund_passed": 1
+  },
+  "JUBLFOOD": {
+    "signal": "HOLD",
+    "timestamp": "2026-02-20T22:46:40.491427+05:30",
+    "price": 531.35,
+    "atr": 14.42225001669899,
+    "fund_passed": 1
+  },
+  "KANSAINER": {
+    "signal": "HOLD",
+    "timestamp": "2026-02-20T22:46:40.491427+05:30",
+    "price": 198.49,
+    "atr": 5.787576656618641,
+    "fund_passed": 1
+  },
+  "LALPATHLAB": {
+    "signal": "HOLD",
+    "timestamp": "2026-02-20T22:46:40.491427+05:30",
+    "price": 1402.0,
+    "atr": 40.391323120399875,
+    "fund_passed": 1
+  },
+  "MPHASIS": {
+    "signal": "HOLD",
+    "timestamp": "2026-02-20T22:46:40.491427+05:30",
+    "price": 2372.7,
+    "atr": 90.85376616519682,
+    "fund_passed": 1
+  },
+  "NAUKRI": {
+    "signal": "HOLD",
+    "timestamp": "2026-02-20T22:46:40.491427+05:30",
+    "price": 1074.5,
+    "atr": 42.54901239948986,
+    "fund_passed": 1
+  },
+  "OFSS": {
+    "signal": "HOLD",
+    "timestamp": "2026-02-20T22:46:40.491427+05:30",
+    "price": 6634.0,
+    "atr": 213.56637145977803,
+    "fund_passed": 1
+  },
+  "PAGEIND": {
+    "signal": "HOLD",
+    "timestamp": "2026-02-20T22:46:40.491427+05:30",
+    "price": 32790.0,
+    "atr": 870.3986484912947,
+    "fund_passed": 1
+  },
+  "PERSISTENT": {
+    "signal": "HOLD",
+    "timestamp": "2026-02-20T22:46:40.491427+05:30",
+    "price": 5104.0,
+    "atr": 221.1327705074476,
+    "fund_passed": 1
+  },
+  "PIIND": {
+    "signal": "HOLD",
+    "timestamp": "2026-02-20T22:46:40.491427+05:30",
+    "price": 3050.0,
+    "atr": 97.76226409351312,
+    "fund_passed": 1
+  },
+  "SYNGENE": {
+    "signal": "HOLD",
+    "timestamp": "2026-02-20T22:46:40.491427+05:30",
+    "price": 444.0,
+    "atr": 15.850092418140115,
+    "fund_passed": 1
+  },
+  "VOLTAS": {
+    "signal": "HOLD",
+    "timestamp": "2026-02-20T22:46:40.491427+05:30",
+    "price": 1543.4,
+    "atr": 44.65296404432759,
+    "fund_passed": 1
   }
 }
