@@ -2,6 +2,5 @@ kiteconnect==5.0.1
 yfinance==0.2.54
 pandas==2.2.1
 numpy==1.26.4
-pandas-ta==0.3.14b
 requests==2.32.3
 pytz==2024.1

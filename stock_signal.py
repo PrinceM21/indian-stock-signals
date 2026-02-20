@@ -19,9 +19,38 @@ from datetime import datetime, date, timedelta
 import pytz
 import pandas as pd
 import numpy as np
-import pandas_ta as ta
 import requests
 import yfinance as yf
+
+# ─────────────────────────────────────────────────────────────────────────────
+# PURE NUMPY/PANDAS INDICATOR HELPERS (no extra library needed)
+# ─────────────────────────────────────────────────────────────────────────────
+
+def _rsi(series, length=14):
+    delta = series.diff()
+    gain  = delta.clip(lower=0)
+    loss  = -delta.clip(upper=0)
+    avg_gain = gain.ewm(com=length - 1, min_periods=length).mean()
+    avg_loss = loss.ewm(com=length - 1, min_periods=length).mean()
+    rs = avg_gain / avg_loss.replace(0, np.nan)
+    return 100 - (100 / (1 + rs))
+
+def _ema(series, length):
+    return series.ewm(span=length, adjust=False, min_periods=length).mean()
+
+def _macd(series, fast=12, slow=26, signal=9):
+    ema_fast   = _ema(series, fast)
+    ema_slow   = _ema(series, slow)
+    macd_line  = ema_fast - ema_slow
+    signal_line= _ema(macd_line, signal)
+    return macd_line, signal_line
+
+def _bbands(series, length=20, std=2):
+    middle = series.rolling(length, min_periods=length).mean()
+    stddev = series.rolling(length, min_periods=length).std()
+    upper  = middle + std * stddev
+    lower  = middle - std * stddev
+    return lower, middle, upper
 
 # ─────────────────────────────────────────────────────────────────────────────
 # CONSTANTS
@@ -159,7 +188,7 @@ def get_price_data(symbol, api_key, access_token):
 def compute_rsi(df):
     """RSI(14): < 30 = BUY, > 70 = SELL."""
     try:
-        series = ta.rsi(df["close"], length=14)
+        series = _rsi(df["close"], length=14)
         if series is None or series.dropna().empty:
             return {"signal": "NEUTRAL", "value": None, "reason": "RSI: insufficient data"}
 
@@ -177,21 +206,16 @@ def compute_rsi(df):
 def compute_macd(df):
     """MACD(12,26,9): BUY on bullish crossover, SELL on bearish crossover."""
     try:
-        macd_df = ta.macd(df["close"], fast=12, slow=26, signal=9)
-        if macd_df is None or len(macd_df.dropna()) < 2:
+        macd_line, signal_line = _macd(df["close"], fast=12, slow=26, signal=9)
+
+        # Align and drop NaN
+        combined    = pd.concat([macd_line, signal_line], axis=1).dropna()
+        if len(combined) < 2:
             return {"signal": "NEUTRAL", "macd": None, "signal_line": None,
                     "reason": "MACD: insufficient data"}
 
-        macd_col   = [c for c in macd_df.columns if c.startswith("MACD_")][0]
-        signal_col = [c for c in macd_df.columns if c.startswith("MACDs_")][0]
-
-        macd_line   = macd_df[macd_col].dropna()
-        signal_line = macd_df[signal_col].dropna()
-
-        # Align
-        common_idx  = macd_line.index.intersection(signal_line.index)
-        macd_line   = macd_line.loc[common_idx]
-        signal_line = signal_line.loc[common_idx]
+        macd_line   = combined.iloc[:, 0]
+        signal_line = combined.iloc[:, 1]
 
         if len(macd_line) < 2:
             return {"signal": "NEUTRAL", "macd": None, "signal_line": None,
@@ -222,18 +246,12 @@ def compute_macd(df):
 def compute_ema_crossover(df):
     """EMA9 vs EMA21 crossover: BUY on golden cross, SELL on death cross."""
     try:
-        ema9  = ta.ema(df["close"], length=9)
-        ema21 = ta.ema(df["close"], length=21)
+        ema9  = _ema(df["close"], length=9)
+        ema21 = _ema(df["close"], length=21)
 
-        if ema9 is None or ema21 is None:
-            return {"signal": "NEUTRAL", "ema9": None, "ema21": None,
-                    "reason": "EMA: insufficient data"}
-
-        ema9  = ema9.dropna()
-        ema21 = ema21.dropna()
-        common = ema9.index.intersection(ema21.index)
-        ema9  = ema9.loc[common]
-        ema21 = ema21.loc[common]
+        combined = pd.concat([ema9, ema21], axis=1).dropna()
+        ema9  = combined.iloc[:, 0]
+        ema21 = combined.iloc[:, 1]
 
         if len(ema9) < 2:
             return {"signal": "NEUTRAL", "ema9": None, "ema21": None,
@@ -267,18 +285,15 @@ def compute_bollinger_bands(df):
     lower/upper are used as support/resistance levels in alerts.
     """
     try:
-        bb = ta.bbands(df["close"], length=20, std=2)
-        if bb is None or bb.dropna().empty:
+        lower_s, middle_s, upper_s = _bbands(df["close"], length=20, std=2)
+        combined = pd.concat([lower_s, middle_s, upper_s], axis=1).dropna()
+        if combined.empty:
             return {"signal": "NEUTRAL", "lower": None, "middle": None,
                     "upper": None, "price": None, "reason": "BB: insufficient data"}
 
-        lower_col  = [c for c in bb.columns if c.startswith("BBL_")][0]
-        middle_col = [c for c in bb.columns if c.startswith("BBM_")][0]
-        upper_col  = [c for c in bb.columns if c.startswith("BBU_")][0]
-
-        lower  = bb[lower_col].dropna().iloc[-1]
-        middle = bb[middle_col].dropna().iloc[-1]
-        upper  = bb[upper_col].dropna().iloc[-1]
+        lower  = combined.iloc[-1, 0]
+        middle = combined.iloc[-1, 1]
+        upper  = combined.iloc[-1, 2]
         price  = df["close"].iloc[-1]
 
         tolerance = (upper - lower) * 0.01  # within 1% of band = "touching"
