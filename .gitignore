@@ -1,0 +1,16 @@
+# Python
+__pycache__/
+*.pyc
+*.pyo
+*.egg-info/
+.env
+venv/
+.venv/
+
+# Kite secrets — NEVER commit these
+kite_secrets.py
+secrets.py
+
+# State files (committed by GitHub Actions automatically, not manually)
+# signals_state.json
+# signals_log.json
