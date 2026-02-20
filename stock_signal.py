@@ -52,6 +52,22 @@ def _bbands(series, length=20, std=2):
     lower  = middle - std * stddev
     return lower, middle, upper
 
+def _atr(df, length=14):
+    """
+    Average True Range (ATR) using Wilder's smoothing.
+    True Range = max(high-low, |high-prev_close|, |low-prev_close|)
+    """
+    high       = df["high"]
+    low        = df["low"]
+    close      = df["close"]
+    prev_close = close.shift(1)
+    tr = pd.concat([
+        high - low,
+        (high - prev_close).abs(),
+        (low  - prev_close).abs(),
+    ], axis=1).max(axis=1)
+    return tr.ewm(com=length - 1, min_periods=length).mean()
+
 # ─────────────────────────────────────────────────────────────────────────────
 # CONSTANTS
 # ─────────────────────────────────────────────────────────────────────────────
@@ -358,6 +374,13 @@ def evaluate_technical_signals(df):
 
     triggered = [i["reason"] for i in voters if i["signal"] == direction and direction != "NEUTRAL"]
 
+    # ATR(14) for stop-loss / target calculation
+    try:
+        atr_series = _atr(df, length=14)
+        atr_value  = float(atr_series.dropna().iloc[-1]) if not atr_series.dropna().empty else None
+    except Exception:
+        atr_value = None
+
     return {
         "direction":   direction,
         "buy_count":   buy_count,
@@ -368,6 +391,7 @@ def evaluate_technical_signals(df):
         "ema":         ema,
         "bb":          bb,
         "volume":      vol,
+        "atr":         atr_value,
     }
 
 
@@ -829,9 +853,90 @@ def format_alert_message(symbol, price, signal, tech, fund_score,
         lines.append(f"🎯 Support: ₹{bb['lower']:,.1f}  |  Resistance: ₹{bb['upper']:,.1f}")
         lines.append(f"   (Bollinger Bands 20-day)")
 
+    # ── ATR-Based Risk Management ─────────────────────────────
+    if signal in ("BUY", "STRONG BUY", "SELL", "STRONG SELL"):
+        atr = tech.get("atr")
+        if atr and atr > 0:
+            if signal in ("BUY", "STRONG BUY"):
+                stop_loss = price - 1.5 * atr
+                target    = price + 2.0 * atr
+                sl_pct    = f"-{(price - stop_loss) / price * 100:.1f}%"
+                tgt_pct   = f"+{(target - price) / price * 100:.1f}%"
+            else:
+                stop_loss = price + 1.5 * atr
+                target    = price - 2.0 * atr
+                sl_pct    = f"+{(stop_loss - price) / price * 100:.1f}%"
+                tgt_pct   = f"-{(price - target) / price * 100:.1f}%"
+            risk   = abs(price - stop_loss)
+            reward = abs(target - price)
+            rr     = reward / risk if risk > 0 else 0
+            lines.append(f"🛡️ <b>Risk Management (ATR={atr:.1f})</b>:")
+            lines.append(f"  🎯 Target:    ₹{target:,.2f}  ({tgt_pct})")
+            lines.append(f"  🛑 Stop-Loss: ₹{stop_loss:,.2f}  ({sl_pct})")
+            lines.append(f"  📐 Risk:Reward = 1:{rr:.2f}")
+            lines.append("")
+
     lines.append(f"📌 Previous signal: {prev_signal or 'None (first run)'}")
     lines.append("━━━━━━━━━━━━━━━━━━━━")
 
+    return "\n".join(lines)
+
+
+def format_weekly_summary(state, run_time):
+    """
+    Build the Friday weekly summary Telegram message.
+    Reads current signals from state dict (loaded from signals_state.json).
+    Shows signal snapshot, top 3 BUY candidates, and any strong signals.
+    """
+    signal_counts  = {"STRONG BUY": 0, "BUY": 0, "HOLD": 0, "SELL": 0, "STRONG SELL": 0}
+    buy_candidates = []   # (fund_passed, symbol, price, signal)
+    strong_signals = []   # STRONG BUY / STRONG SELL entries
+
+    for symbol, data in state.items():
+        sig = data.get("signal", "HOLD")
+        signal_counts[sig] = signal_counts.get(sig, 0) + 1
+        fund_passed = data.get("fund_passed", 0) or 0
+        price       = data.get("price", 0) or 0
+        if sig in ("BUY", "STRONG BUY"):
+            buy_candidates.append((fund_passed, symbol, price, sig))
+        if sig in ("STRONG BUY", "STRONG SELL"):
+            strong_signals.append((symbol, sig, price))
+
+    signal_rank = {"STRONG BUY": 2, "BUY": 1}
+    buy_candidates.sort(key=lambda x: (x[0], signal_rank.get(x[3], 0)), reverse=True)
+    top3  = buy_candidates[:3]
+    total = sum(signal_counts.values())
+
+    lines = [
+        "━━━━━━━━━━━━━━━━━━━━",
+        "📅 <b>WEEKLY MARKET SUMMARY</b>",
+        f"Week ending: {run_time.strftime('%d %b %Y')}",
+        "━━━━━━━━━━━━━━━━━━━━",
+        "",
+        f"📊 <b>Signal Snapshot ({total} stocks)</b>:",
+        f"  🟢 STRONG BUY:  {signal_counts.get('STRONG BUY', 0)}",
+        f"  🟡 BUY:         {signal_counts.get('BUY', 0)}",
+        f"  ⚪ HOLD:        {signal_counts.get('HOLD', 0)}",
+        f"  🟠 SELL:        {signal_counts.get('SELL', 0)}",
+        f"  🔴 STRONG SELL: {signal_counts.get('STRONG SELL', 0)}",
+        "",
+    ]
+
+    if top3:
+        lines.append("🏆 <b>Top BUY Candidates This Week</b>:")
+        for i, (fp, sym, px, sig) in enumerate(top3, 1):
+            lines.append(f"  {i}. {_signal_emoji(sig)} <b>{sym}</b> — ₹{px:,.2f}  |  Fundamentals: {fp}/10")
+        lines.append("")
+
+    if strong_signals:
+        lines.append("⚡ <b>Strong Signals Alert</b>:")
+        for sym, sig, px in strong_signals:
+            lines.append(f"  {_signal_emoji(sig)} {sym}: {sig} @ ₹{px:,.2f}")
+    else:
+        lines.append("  (No STRONG BUY / STRONG SELL signals this week)")
+    lines.append("")
+    lines.append(f"🕐 {run_time.strftime('%d %b %Y, %H:%M IST')}")
+    lines.append("━━━━━━━━━━━━━━━━━━━━")
     return "\n".join(lines)
 
 
@@ -850,6 +955,21 @@ def main():
     if not bot_token or not chat_id:
         log.error("TELEGRAM_BOT_TOKEN and TELEGRAM_CHAT_ID env vars are required")
         sys.exit(1)
+
+    # Friday 10:00 UTC = 3:30 PM IST → weekly summary only run (no full scan)
+    is_friday_summary = (run_time.weekday() == 4 and run_time.hour == 15 and run_time.minute >= 30)
+    if is_friday_summary:
+        log.info("Friday 3:30 PM IST — sending weekly summary")
+        state = load_signals_state()
+        if state:
+            weekly_msg = format_weekly_summary(state, run_time)
+            send_telegram_alert(bot_token, chat_id, weekly_msg)
+            log.info("Weekly summary sent.")
+        else:
+            log.warning("Weekly summary: signals_state.json is empty — skipping")
+            send_telegram_alert(bot_token, chat_id,
+                "📅 <b>Weekly Summary</b>\n⚠️ No signal data found yet. Run the scanner first!")
+        return
 
     # 2. Load watchlist
     if not os.path.exists(WATCHLIST_FILE):
@@ -908,6 +1028,7 @@ def main():
         log.info(f"{symbol}: {signal} | tech={tech['direction']}({tech['buy_count']}B/{tech['sell_count']}S) | fund={fund_score['passed']}/10 checklist | changed={changed}")
 
         # e. Log to file
+        _atr_val = tech.get("atr")
         append_to_signal_log({
             "timestamp":            run_time.isoformat(),
             "symbol":               symbol,
@@ -922,6 +1043,11 @@ def main():
             "indicators_triggered": tech["triggered"],
             "previous_signal":      state.get(symbol, {}).get("signal"),
             "signal_changed":       changed,
+            "atr":                  _atr_val,
+            "stop_loss":            round(price - 1.5 * _atr_val, 2) if _atr_val and signal in ("BUY","STRONG BUY") else
+                                    round(price + 1.5 * _atr_val, 2) if _atr_val and signal in ("SELL","STRONG SELL") else None,
+            "target":               round(price + 2.0 * _atr_val, 2) if _atr_val and signal in ("BUY","STRONG BUY") else
+                                    round(price - 2.0 * _atr_val, 2) if _atr_val and signal in ("SELL","STRONG SELL") else None,
             "outcome_price":        None,
             "outcome_date":         None,
             "outcome_pct":          None,
@@ -929,9 +1055,11 @@ def main():
 
         # f. Update state
         state[symbol] = {
-            "signal":    signal,
-            "timestamp": run_time.isoformat(),
-            "price":     price,
+            "signal":      signal,
+            "timestamp":   run_time.isoformat(),
+            "price":       price,
+            "atr":         tech.get("atr"),
+            "fund_passed": fund_score["passed"],
         }
 
         # g. Send alert only if signal changed

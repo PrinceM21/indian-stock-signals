@@ -6,6 +6,8 @@ on:
     - cron: '0 4 * * 1-5'
     # 3:00 PM IST = 9:30 UTC — pre-close scan
     - cron: '30 9 * * 1-5'
+    # 3:30 PM IST = 10:00 UTC — Friday weekly summary (script detects Friday and skips full scan)
+    - cron: '0 10 * * 5'
   workflow_dispatch:   # manual trigger for testing
 
 permissions:
@@ -14,7 +16,7 @@ permissions:
 jobs:
   scan:
     runs-on: ubuntu-latest
-    timeout-minutes: 25
+    timeout-minutes: 45
 
     steps:
       - name: Checkout repository
