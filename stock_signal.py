@@ -68,16 +68,6 @@ RSI_OVERSOLD     = 30
 RSI_OVERBOUGHT   = 70
 VOLUME_SPIKE_MULT = 2.0     # volume > 2x 20-day avg = spike
 
-# Fundamental scoring weights (must sum to 100)
-FUND_WEIGHTS = {
-    "pe_score":        20,
-    "pb_score":        15,
-    "de_score":        15,
-    "revenue_growth":  15,
-    "profit_growth":   15,
-    "promoter_holding": 20,
-}
-
 logging.basicConfig(
     level=logging.INFO,
     format="%(asctime)s [%(levelname)s] %(message)s"
@@ -388,53 +378,105 @@ def evaluate_technical_signals(df):
 def get_fundamentals_yfinance(symbol):
     """
     Fetch fundamental data for an NSE symbol via yfinance.
-    Returns a dict with all fields; missing values are None.
-    Note: promoter holding is approximated from major_holders (insider %).
+    Returns a dict with all fields needed for the 10-point checklist.
+    Missing values are None.
     """
     result = {
-        "pe": None, "pb": None, "de": None,
-        "revenue_qoq": None, "revenue_yoy": None,
-        "profit_qoq": None, "profit_yoy": None,
-        "promoter_pct": None,
-        "fetch_error": None
+        # Checklist fields
+        "opm":              None,   # Operating Profit Margin (criterion 1)
+        "eps":              None,   # Trailing EPS            (criterion 2)
+        "de":               None,   # Debt-to-Equity          (criterion 3)
+        "roe":              None,   # Return on Equity        (criterion 4)
+        # ROCE (criterion 5) not available for NSE via yfinance → auto-skip
+        "net_income":       None,   # Net income (for interest coverage, crit 6)
+        "interest_expense": None,   # Interest expense        (criterion 6)
+        "ebitda":           None,   # EBITDA (fallback proxy for crit 6)
+        "promoter_pct":     None,   # Promoter / insider %    (criterion 7)
+        "operating_cashflow": None, # Operating cash flow     (criterion 8)
+        "revenue_yoy":      None,   # Revenue YoY growth %    (criterion 9 proxy)
+        "profit_yoy":       None,   # Profit YoY growth %     (criterion 10 proxy)
+        # Growth fallbacks
+        "revenue_qoq":      None,
+        "profit_qoq":       None,
+        # Extra context fields (for alert message)
+        "pe":               None,
+        "week52_high":      None,
+        "week52_low":       None,
+        "market_cap":       None,
+        "current_price":    None,
+        "fetch_error":      None,
     }
     try:
         ticker = yf.Ticker(symbol + ".NS")
         info   = ticker.info or {}
 
-        result["pe"] = info.get("trailingPE") or info.get("forwardPE")
-        result["pb"] = info.get("priceToBook")
-        result["de"] = info.get("debtToEquity")
+        # --- Core checklist fields from ticker.info ---
+        result["opm"]             = info.get("operatingMargins")       # e.g. 0.24 = 24%
+        result["eps"]             = info.get("trailingEps")
+        result["de"]              = info.get("debtToEquity")
+        result["roe"]             = info.get("returnOnEquity")         # e.g. 0.18 = 18%
+        result["operating_cashflow"] = info.get("operatingCashflow")
+        result["ebitda"]          = info.get("ebitda")
 
-        # Quarterly financials → QoQ growth
-        try:
-            qf = ticker.quarterly_financials
-            if qf is not None and not qf.empty and len(qf.columns) >= 2:
-                for row_label, key_qoq in [("Total Revenue", "revenue_qoq"),
-                                            ("Net Income",    "profit_qoq")]:
-                    if row_label in qf.index:
-                        prev = qf.loc[row_label].iloc[1]
-                        curr = qf.loc[row_label].iloc[0]
-                        if prev and prev != 0:
-                            result[key_qoq] = round((curr / prev - 1) * 100, 1)
-        except Exception:
-            pass
+        # --- Extra context ---
+        result["pe"]              = info.get("trailingPE") or info.get("forwardPE")
+        result["week52_high"]     = info.get("fiftyTwoWeekHigh")
+        result["week52_low"]      = info.get("fiftyTwoWeekLow")
+        result["market_cap"]      = info.get("marketCap")
+        result["current_price"]   = info.get("currentPrice") or info.get("regularMarketPrice")
 
-        # Annual financials → YoY growth
+        # --- Annual financials → YoY growth + interest expense ---
         try:
             af = ticker.financials
             if af is not None and not af.empty and len(af.columns) >= 2:
-                for row_label, key_yoy in [("Total Revenue", "revenue_yoy"),
-                                            ("Net Income",    "profit_yoy")]:
-                    if row_label in af.index:
-                        prev = af.loc[row_label].iloc[1]
-                        curr = af.loc[row_label].iloc[0]
+                # Revenue YoY
+                for label in ("Total Revenue", "Revenue"):
+                    if label in af.index:
+                        prev = af.loc[label].iloc[1]
+                        curr = af.loc[label].iloc[0]
                         if prev and prev != 0:
-                            result[key_yoy] = round((curr / prev - 1) * 100, 1)
+                            result["revenue_yoy"] = round((curr / prev - 1) * 100, 1)
+                        break
+                # Net income YoY
+                for label in ("Net Income", "Net Income Common Stockholders"):
+                    if label in af.index:
+                        prev = af.loc[label].iloc[1]
+                        curr = af.loc[label].iloc[0]
+                        if prev and prev != 0:
+                            result["profit_yoy"] = round((curr / prev - 1) * 100, 1)
+                        # Store latest net income for interest coverage
+                        result["net_income"] = af.loc[label].iloc[0]
+                        break
+                # Interest expense
+                for label in ("Interest Expense", "Interest Expense Non Operating"):
+                    if label in af.index:
+                        result["interest_expense"] = abs(af.loc[label].iloc[0])
+                        break
         except Exception:
             pass
 
-        # Promoter holding (approximate from major_holders)
+        # --- Quarterly fallback for growth ---
+        try:
+            qf = ticker.quarterly_financials
+            if qf is not None and not qf.empty and len(qf.columns) >= 2:
+                for label in ("Total Revenue", "Revenue"):
+                    if label in qf.index:
+                        prev = qf.loc[label].iloc[1]
+                        curr = qf.loc[label].iloc[0]
+                        if prev and prev != 0:
+                            result["revenue_qoq"] = round((curr / prev - 1) * 100, 1)
+                        break
+                for label in ("Net Income", "Net Income Common Stockholders"):
+                    if label in qf.index:
+                        prev = qf.loc[label].iloc[1]
+                        curr = qf.loc[label].iloc[0]
+                        if prev and prev != 0:
+                            result["profit_qoq"] = round((curr / prev - 1) * 100, 1)
+                        break
+        except Exception:
+            pass
+
+        # --- Promoter holding (approximated from major_holders insider %) ---
         try:
             holders = ticker.major_holders
             if holders is not None and not holders.empty:
@@ -450,86 +492,136 @@ def get_fundamentals_yfinance(symbol):
     return result
 
 
-def _score_pe(pe, sector_pe):
-    if pe is None: return 50
-    if pe <= 0:    return 20
-    if pe < sector_pe * 0.8:  return 90
-    if pe < sector_pe:        return 70
-    if pe < sector_pe * 1.2:  return 50
-    if pe < sector_pe * 1.5:  return 30
-    return 10
-
-
-def _score_pb(pb):
-    if pb is None: return 50
-    if pb <= 1:    return 90
-    if pb <= 3:    return 70
-    if pb <= 5:    return 50
-    if pb <= 8:    return 30
-    return 10
-
-
-def _score_de(de):
-    if de is None: return 50
-    if de < 0:     return 30
-    if de == 0:    return 95
-    if de < 0.5:   return 85
-    if de < 1.0:   return 70
-    if de < 2.0:   return 50
-    if de < 3.0:   return 30
-    return 10
-
-
-def _score_growth(val):
-    if val is None: return 50
-    if val > 25:    return 95
-    if val > 15:    return 80
-    if val > 5:     return 65
-    if val >= 0:    return 50
-    if val > -10:   return 30
-    return 10
-
-
-def _score_promoter(pct):
-    if pct is None: return 50
-    if pct >= 65:   return 90
-    if pct >= 50:   return 75
-    if pct >= 35:   return 60
-    if pct >= 20:   return 40
-    return 20
-
-
-def compute_fundamental_score(fundamentals, sector_pe):
+def compute_fundamental_score(fundamentals, sector_pe=None):
     """
-    Convert raw fundamental data into a 0-100 weighted score.
-    Returns {total, breakdown} where breakdown shows raw values and sub-scores.
+    Strict pass/fail checklist matching the user's 10-point criteria.
+
+    Criteria:
+      1. OPM > 20%
+      2. EPS > 0 (positive / stable)
+      3. D/E < 1
+      4. ROE > 15%
+      5. ROCE > 15%  (SKIPPED — not available via yfinance for NSE)
+      6. Net Profit ≥ 2× Interest Expense  (or EBITDA proxy)
+      7. Promoter holding ≥ 50%
+      8. Operating Cash Flow > 0
+      9. Revenue Growth > 10% YoY  (proxy for "Balance Sheet growing")
+     10. Profit Growth > 10% YoY   (proxy for "10-year growth > 10%")
+
+    Returns:
+      {
+        "passed": int (0-10, ROCE always skipped → max useful = 9),
+        "total":  int (same as passed, for backward compat),
+        "checklist": [ {name, value, passed, note}, ... ]
+      }
     """
     f = fundamentals
-
     revenue_val = f["revenue_yoy"] if f["revenue_yoy"] is not None else f["revenue_qoq"]
     profit_val  = f["profit_yoy"]  if f["profit_yoy"]  is not None else f["profit_qoq"]
 
-    sub_scores = {
-        "pe_score":        _score_pe(f["pe"], sector_pe),
-        "pb_score":        _score_pb(f["pb"]),
-        "de_score":        _score_de(f["de"]),
-        "revenue_growth":  _score_growth(revenue_val),
-        "profit_growth":   _score_growth(profit_val),
-        "promoter_holding": _score_promoter(f["promoter_pct"]),
+    # Interest coverage: net_income ≥ 2× interest_expense
+    # Fallback: if interest_expense is 0 or None, treat as PASS (no significant debt interest)
+    def _interest_coverage_pass():
+        ie = f.get("interest_expense")
+        ni = f.get("net_income")
+        ebitda = f.get("ebitda")
+        if ie is None or ie == 0:
+            # No interest burden → automatically passes
+            return True, "No significant interest expense"
+        # Try net income
+        if ni is not None:
+            ratio = ni / ie
+            if ratio >= 2.0:
+                return True, f"Net profit {ratio:.1f}× interest"
+            else:
+                return False, f"Net profit only {ratio:.1f}× interest (<2×)"
+        # Fallback: EBITDA / interest
+        if ebitda is not None:
+            ratio = ebitda / ie
+            if ratio >= 2.0:
+                return True, f"EBITDA {ratio:.1f}× interest (proxy)"
+            else:
+                return False, f"EBITDA only {ratio:.1f}× interest (<2×)"
+        return None, "Interest coverage: data unavailable"
+
+    ic_pass, ic_note = _interest_coverage_pass()
+
+    def _fmt_pct(v):
+        return f"{v*100:.1f}%" if v is not None else None
+
+    checklist = [
+        {
+            "name":   "OPM > 20%",
+            "value":  _fmt_pct(f["opm"]),
+            "passed": (f["opm"] > 0.20) if f["opm"] is not None else None,
+            "note":   f"{f['opm']*100:.1f}% operating margin" if f["opm"] is not None else "Data unavailable",
+        },
+        {
+            "name":   "EPS Positive",
+            "value":  f"{f['eps']:.2f}" if f["eps"] is not None else None,
+            "passed": (f["eps"] > 0) if f["eps"] is not None else None,
+            "note":   f"EPS ₹{f['eps']:.2f}" if f["eps"] is not None else "Data unavailable",
+        },
+        {
+            "name":   "D/E < 1",
+            "value":  f"{f['de']:.2f}" if f["de"] is not None else None,
+            "passed": (f["de"] < 100) if f["de"] is not None else None,
+            # yfinance returns D/E in %, e.g. 45.2 means 0.452 — threshold 100 = 1.0
+            "note":   f"D/E {f['de']/100:.2f}" if f["de"] is not None else "Data unavailable",
+        },
+        {
+            "name":   "ROE > 15%",
+            "value":  _fmt_pct(f["roe"]),
+            "passed": (f["roe"] > 0.15) if f["roe"] is not None else None,
+            "note":   f"ROE {f['roe']*100:.1f}%" if f["roe"] is not None else "Data unavailable",
+        },
+        {
+            "name":   "ROCE > 15%",
+            "value":  None,
+            "passed": None,   # Always skipped — not available via yfinance for NSE
+            "note":   "Data unavailable (NSE ROCE not in yfinance)",
+        },
+        {
+            "name":   "Net Profit ≥ 2× Interest",
+            "value":  ic_note,
+            "passed": ic_pass,
+            "note":   ic_note,
+        },
+        {
+            "name":   "Promoter Holding ≥ 50%",
+            "value":  f"{f['promoter_pct']:.1f}%" if f["promoter_pct"] is not None else None,
+            "passed": (f["promoter_pct"] >= 50) if f["promoter_pct"] is not None else None,
+            "note":   f"Promoter {f['promoter_pct']:.1f}%" if f["promoter_pct"] is not None else "Data unavailable",
+        },
+        {
+            "name":   "Cash Flow Positive",
+            "value":  "Positive" if (f["operating_cashflow"] is not None and f["operating_cashflow"] > 0) else
+                      ("Negative" if f["operating_cashflow"] is not None else None),
+            "passed": (f["operating_cashflow"] > 0) if f["operating_cashflow"] is not None else None,
+            "note":   f"Op. cash flow ₹{f['operating_cashflow']/1e7:.1f} Cr" if f["operating_cashflow"] is not None else "Data unavailable",
+        },
+        {
+            "name":   "Revenue Growth > 10%",
+            "value":  f"{revenue_val:+.1f}%" if revenue_val is not None else None,
+            "passed": (revenue_val > 10) if revenue_val is not None else None,
+            "note":   f"Revenue YoY {revenue_val:+.1f}%" if revenue_val is not None else "Data unavailable",
+        },
+        {
+            "name":   "Profit Growth > 10%",
+            "value":  f"{profit_val:+.1f}%" if profit_val is not None else None,
+            "passed": (profit_val > 10) if profit_val is not None else None,
+            "note":   f"Profit YoY {profit_val:+.1f}%" if profit_val is not None else "Data unavailable",
+        },
+    ]
+
+    # Count passed (True) — None (data unavailable) does NOT count as pass
+    passed_count = sum(1 for c in checklist if c["passed"] is True)
+
+    return {
+        "passed":    passed_count,
+        "total":     passed_count,   # backward compat with generate_signal / log
+        "checklist": checklist,
     }
-
-    total = sum(sub_scores[k] * FUND_WEIGHTS[k] / 100 for k in FUND_WEIGHTS)
-
-    breakdown = {
-        "pe_score":        {"raw": f["pe"],            "score": sub_scores["pe_score"]},
-        "pb_score":        {"raw": f["pb"],            "score": sub_scores["pb_score"]},
-        "de_score":        {"raw": f["de"],            "score": sub_scores["de_score"]},
-        "revenue_growth":  {"raw": revenue_val,        "score": sub_scores["revenue_growth"]},
-        "profit_growth":   {"raw": profit_val,         "score": sub_scores["profit_growth"]},
-        "promoter_holding":{"raw": f["promoter_pct"],  "score": sub_scores["promoter_holding"]},
-    }
-
-    return {"total": round(total, 1), "breakdown": breakdown}
 
 
 # ─────────────────────────────────────────────────────────────────────────────
@@ -538,17 +630,20 @@ def compute_fundamental_score(fundamentals, sector_pe):
 
 def generate_signal(tech, fund_score):
     """
-    Combine technical direction with fundamental score into a 5-tier signal.
+    Combine technical direction with fundamental checklist score into a 5-tier signal.
 
-    STRONG BUY  → BUY tech + fund ≥ 75
-    BUY         → BUY tech + fund ≥ 60
-    HOLD        → BUY tech + fund < 60  OR  SELL tech + fund ≥ 75  OR  NEUTRAL
-    SELL        → SELL tech + fund ≥ 60
-    STRONG SELL → SELL tech + fund < 60
+    fund_score["passed"] is 0-10 (checklist criteria passed).
+
+    STRONG BUY  → BUY tech  + ≥ 8/10 passed
+    BUY         → BUY tech  + ≥ 6/10 passed
+    HOLD        → BUY tech  + < 6     OR  SELL tech + ≥ 8  OR  NEUTRAL
+    SELL        → SELL tech + ≥ 6/10
+    STRONG SELL → SELL tech + < 6/10
     """
-    direction   = tech["direction"]
-    fund_strong = fund_score["total"] >= 75
-    fund_ok     = fund_score["total"] >= 60
+    direction  = tech["direction"]
+    passed     = fund_score["passed"]
+    fund_strong = passed >= 8
+    fund_ok     = passed >= 6
 
     if direction == "BUY":
         if fund_strong: return "STRONG BUY"
@@ -641,27 +736,69 @@ def _indicator_line(label, indicator, direction):
     return f"  {mark} {indicator.get('reason', label)}"
 
 
+def _market_cap_label(market_cap):
+    """Classify market cap in Indian context (in Crore)."""
+    if market_cap is None:
+        return "N/A"
+    cr = market_cap / 1e7   # 1 Crore = 1e7
+    if cr >= 20_000:
+        return f"Large Cap (₹{cr/100:.0f}K Cr)"
+    elif cr >= 5_000:
+        return f"Mid Cap (₹{cr:.0f} Cr)"
+    else:
+        return f"Small Cap (₹{cr:.0f} Cr)"
+
+
+def _52w_context(price, high, low):
+    """Show where current price sits in 52-week range."""
+    if high is None or low is None or high == low:
+        return None
+    pct_from_high = (high - price) / high * 100
+    pct_from_low  = (price - low)  / (high - low) * 100
+    return (
+        f"₹{low:,.1f} ─── {pct_from_low:.0f}% ─── ₹{price:,.2f} ─── "
+        f"{pct_from_high:.0f}% below high ₹{high:,.1f}"
+    )
+
+
 def format_alert_message(symbol, price, signal, tech, fund_score,
-                         data_source, run_time, prev_signal):
+                         data_source, run_time, prev_signal,
+                         fundamentals=None, sector=None):
     """Build the full Telegram HTML message for a signal alert."""
     emoji = _signal_emoji(signal)
     direction = tech["direction"]
+    f = fundamentals or {}
 
-    # Header
+    # ── Header ────────────────────────────────────────────────
     lines = [
         "━━━━━━━━━━━━━━━━━━━━",
         f"{emoji} <b>{signal} — {symbol}</b>",
         "━━━━━━━━━━━━━━━━━━━━",
+    ]
+
+    # Sector + Market Cap
+    if sector:
+        lines.append(f"🏭 Sector: {sector}  |  {_market_cap_label(f.get('market_cap'))}")
+
+    lines += [
         f"💰 Price: <code>₹{price:,.2f}</code>  |  Source: {data_source}",
         f"📅 {run_time.strftime('%d %b %Y, %H:%M IST')}",
         "",
     ]
 
-    # Technical section
+    # ── 52-Week Range ─────────────────────────────────────────
+    ctx_52w = _52w_context(price, f.get("week52_high"), f.get("week52_low"))
+    if ctx_52w:
+        lines.append(f"📉 52W: {ctx_52w}")
+        lines.append("")
+
+    # ── Technical Section ─────────────────────────────────────
     agree = tech["buy_count"] if direction == "BUY" else tech["sell_count"]
     lines.append(f"📊 <b>Technical ({agree}/4 indicators agree)</b>:")
-    for ind_name, ind_data in [("RSI", tech["rsi"]), ("MACD", tech["macd"]),
-                                ("EMA", tech["ema"]), ("BB",  tech["bb"])]:
+    for ind_name, ind_data in [("RSI",  tech["rsi"]),
+                                ("MACD", tech["macd"]),
+                                ("EMA",  tech["ema"]),
+                                ("BB",   tech["bb"])]:
         lines.append(_indicator_line(ind_name, ind_data, direction))
 
     vol = tech["volume"]
@@ -670,28 +807,23 @@ def format_alert_message(symbol, price, signal, tech, fund_score,
 
     lines.append("")
 
-    # Fundamentals section
-    fs = fund_score
-    bd = fs["breakdown"]
-    lines.append(f"📈 <b>Fundamental Score: {fs['total']}/100</b>")
+    # ── Fundamental Checklist ─────────────────────────────────
+    passed  = fund_score["passed"]
+    total_c = len(fund_score["checklist"])
+    lines.append(f"📋 <b>Fundamental Checklist: {passed}/{total_c} passed</b>")
 
-    pe_raw  = bd["pe_score"]["raw"]
-    pb_raw  = bd["pb_score"]["raw"]
-    de_raw  = bd["de_score"]["raw"]
-    rev_raw = bd["revenue_growth"]["raw"]
-    prf_raw = bd["profit_growth"]["raw"]
-    prom_raw= bd["promoter_holding"]["raw"]
-
-    lines.append(f"  PE: {f'{pe_raw:.1f}' if pe_raw else 'N/A'}  → {bd['pe_score']['score']}pts")
-    lines.append(f"  PB: {f'{pb_raw:.1f}' if pb_raw else 'N/A'}  → {bd['pb_score']['score']}pts")
-    lines.append(f"  D/E: {f'{de_raw:.2f}' if de_raw else 'N/A'}  → {bd['de_score']['score']}pts")
-    lines.append(f"  Revenue growth: {f'{rev_raw:+.1f}%' if rev_raw is not None else 'N/A'}  → {bd['revenue_growth']['score']}pts")
-    lines.append(f"  Profit growth: {f'{prf_raw:+.1f}%' if prf_raw is not None else 'N/A'}  → {bd['profit_growth']['score']}pts")
-    lines.append(f"  Promoter holding: {f'{prom_raw:.1f}%' if prom_raw is not None else 'N/A'}  → {bd['promoter_holding']['score']}pts")
+    for c in fund_score["checklist"]:
+        if c["passed"] is None:
+            mark = "⚠️ "
+        elif c["passed"]:
+            mark = "✅"
+        else:
+            mark = "❌"
+        lines.append(f"  {mark} {c['name']}: {c['note']}")
 
     lines.append("")
 
-    # Support / Resistance from Bollinger Bands
+    # ── Support / Resistance ──────────────────────────────────
     bb = tech["bb"]
     if bb.get("lower") and bb.get("upper"):
         lines.append(f"🎯 Support: ₹{bb['lower']:,.1f}  |  Resistance: ₹{bb['upper']:,.1f}")
@@ -773,7 +905,7 @@ def main():
         signal_counts[signal] = signal_counts.get(signal, 0) + 1
         changed = has_signal_changed(symbol, signal, state)
 
-        log.info(f"{symbol}: {signal} | tech={tech['direction']}({tech['buy_count']}B/{tech['sell_count']}S) | fund={fund_score['total']}/100 | changed={changed}")
+        log.info(f"{symbol}: {signal} | tech={tech['direction']}({tech['buy_count']}B/{tech['sell_count']}S) | fund={fund_score['passed']}/10 checklist | changed={changed}")
 
         # e. Log to file
         append_to_signal_log({
@@ -784,7 +916,8 @@ def main():
             "tech_direction":       tech["direction"],
             "buy_count":            tech["buy_count"],
             "sell_count":           tech["sell_count"],
-            "fund_score":           fund_score["total"],
+            "fund_passed":          fund_score["passed"],
+            "fund_checklist":       [{"name": c["name"], "passed": c["passed"]} for c in fund_score["checklist"]],
             "data_source":          data_source,
             "indicators_triggered": tech["triggered"],
             "previous_signal":      state.get(symbol, {}).get("signal"),
@@ -806,7 +939,9 @@ def main():
             prev_signal = state.get(symbol, {}).get("signal")
             msg = format_alert_message(
                 symbol, price, signal, tech, fund_score,
-                data_source, run_time, prev_signal
+                data_source, run_time, prev_signal,
+                fundamentals=fundamentals,
+                sector=stock_meta.get("sector"),
             )
             if send_telegram_alert(bot_token, chat_id, msg):
                 alerts_sent += 1
@@ -825,6 +960,8 @@ def main():
         f"  ⚪ HOLD:       {signal_counts.get('HOLD', 0)}\n"
         f"  🟠 SELL:       {signal_counts.get('SELL', 0)}\n"
         f"  🔴 STRONG SELL:{signal_counts.get('STRONG SELL', 0)}\n\n"
+        f"📋 Fundamentals scored via 10-point checklist\n"
+        f"   (≥8 = STRONG · ≥6 = OK · &lt;6 = WEAK)\n\n"
         f"📨 Alerts sent (signal changes): {alerts_sent}\n"
         f"⚠️  Data errors: {errors}"
     )
